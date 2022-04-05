@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:text="Setup"
+        android:textAlignment="center"
         android:textColor="#E91E63"
         android:textDirection="locale"
         android:textSize="34sp" />
