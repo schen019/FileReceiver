@@ -164,7 +164,7 @@ description		String			Description of the file added by the user
 
 ### Networking
 - [Add list of network requests by screen ]
-
+https://imgur.com/a/8vkVJLJ
 *Login Screen
 	*Request the user object in order to populate history and user information
 *SignUp Screen
