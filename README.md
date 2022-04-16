@@ -140,12 +140,56 @@ File receive screen
 ### [BONUS] Digital Wireframes & Mockups
 
 ### [BONUS] Interactive Prototype
-
-## Schema 
-[This section will be completed in Unit 9]
-### Models
 [Add table of models]
+Property (Users)	Type			Description
+username		String			Display name of user
+password		String			password
+Files received		List of pointers	List of pointers to the files received by user
+Files sent		List of Pointers	List of pointers to the files sent by user
+Object ID		String			Unique identifier of the object
+
+Property (Files)	Type			Description
+Object ID		String			Unique identifier of the object
+Files PIN		Int			The pin set by sender
+File security code	Int			The code set by random before sent
+File name		string			The name of the file
+File content		pointer			A pointer to the contents of a file
+description		String			Description of the file added by the user
+
+
 ### Networking
 - [Add list of network requests by screen ]
+
+Login Screen
+Request the user object in order to populate history and user information
+SignUp Screen
+Will add a new entry to user database
+Main Screen
+No requests
+Send Screen
+Will add file object to database
+update user object in database
+Succeed Screen
+No requests
+Receive Screen
+Request the files sent , files pin and file security code
+File Receive Screen
+Will request file object from database 
+update user received list
+History Screen
+This will request the user object on order to get updated list of sent and received
+File Screen
+This will request the file objects 
+
 - [Create basic snippets for each Parse network request]
+//this is the snippet of code used to query the database and get user objects
+//this will only be done upon log in and when the lists of file history need to be updated
+ParseQuery<user> query = ParseQuery.getQuery(user.class);
+
+
+// this will be the snippet of code used to query the database and get the file objects
+// this will be done every time a file is opened or looked at or received
+ParseQuery<file> query = ParseQuery.getQuery(file.class);
+
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+
