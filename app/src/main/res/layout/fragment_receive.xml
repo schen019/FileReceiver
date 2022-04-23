@@ -12,11 +12,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvmaintitle2"
+            android:id="@+id/tvReseive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="12sp"
-            android:text="MyParstagams"
+            android:text="Receive"
             android:textAlignment="center"
             android:textColor="#E91E63"
             android:textDirection="firstStrongRtl"
