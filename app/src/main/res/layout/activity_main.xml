@@ -7,9 +7,47 @@
 
     tools:context=".MainActivity">
 
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btnNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        app:itemIconTint="@color/white"
+        app:menu="@menu/menu_bottom_navigation" />
+
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="617dp"
+        android:layout_above="@id/btnNavigationView"
+        android:layout_below="@+id/tvHello"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="42dp">
+
+    </FrameLayout>
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello world" />
+        android:id="@+id/tvHello"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#8BC34A"
+        android:hint="Hi User!!!"
+        android:text="TextView" />
 </RelativeLayout>
