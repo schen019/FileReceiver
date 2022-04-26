@@ -198,3 +198,7 @@ ParseQuery<file> query = ParseQuery.getQuery(file.class);
 
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
 
+Checked-Off:
+	[x]DATABASE
+	[X]Signup
+	[X]Login
