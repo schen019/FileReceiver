@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SuccessedFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/tvcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginRight="100dp"
+        android:layoutDirection="rtl"
+        android:lineSpacingExtra="5dp"
+        android:textAlignment="center"
+        android:textDirection="locale"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/tvReceive2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:text="5 digits Code" />
+
+    <TextView
+        android:id="@+id/tvReceive2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="12sp"
+        android:text="Successed!!"
+        android:textAlignment="center"
+        android:textColor="#E91E63"
+        android:textDirection="firstStrongRtl"
+        android:textSize="34sp"
+        android:typeface="serif" />
+
+</FrameLayout>

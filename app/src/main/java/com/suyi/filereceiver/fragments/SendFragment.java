@@ -49,5 +49,11 @@ public class SendFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSend = view.findViewById(R.id.btnSend);
 
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }

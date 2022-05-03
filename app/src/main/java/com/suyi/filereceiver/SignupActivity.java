@@ -35,6 +35,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i(TAG,"onClick toLogin Button");
                 goLoginActivity();
+                finish();
             }
         });
         btnCreate.setOnClickListener(new View.OnClickListener() {
