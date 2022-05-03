@@ -1,5 +1,6 @@
 package com.suyi.filereceiver.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class SendFragment extends Fragment {
     private Button btnSelect;
     private ImageView ivPostImage;
     private Button btnSend;
+    private Object SuccessedFragment;
 
     public SendFragment() {
         // Required empty public constructor
@@ -52,8 +54,11 @@ public class SendFragment extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                    goSuccessed();
             }
         });
+    }
+
+    private void goSuccessed() {
     }
 }
