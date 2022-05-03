@@ -59,6 +59,7 @@
         android:background="#FFEB3B"
         android:hint="Hi User!!!"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="24dp"
         android:textStyle="bold|italic" />
 
