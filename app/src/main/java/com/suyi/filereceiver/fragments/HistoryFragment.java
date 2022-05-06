@@ -3,12 +3,24 @@ package com.suyi.filereceiver.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.suyi.filereceiver.File;
+import com.suyi.filereceiver.FileAdapter;
 import com.suyi.filereceiver.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +29,12 @@ import com.suyi.filereceiver.R;
  */
 public class HistoryFragment extends Fragment
 {
+
+    public static final String TAG = "FilesFragment";
+    RecyclerView rvFiles;
+    List<File> allFiles;
+    FileAdapter adapter;
+    SwipeRefreshLayout swipeContainer;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,15 +69,56 @@ public class HistoryFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onViewCreated(final View view, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        rvFiles = view.findViewById(R.id.rvFiles);
+        allFiles = new ArrayList<>();
+        adapter = new FileAdapter(getContext(), allFiles);
+        rvFiles.setAdapter(adapter);
+        rvFiles.setLayoutManager(new LinearLayoutManager(getContext()));
+        queryPosts();
+
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "fetching new data");
+                //Function to call when the user swipes to refresh
+            }
+        });
+
     }
+
+
+    private void queryPosts()
+    {
+        ParseQuery<File> query = ParseQuery.getQuery(File.class);
+        //query.include(File.);
+        query.setLimit(20);
+        query.orderByDescending(File.KEY_UPDATEDAT);
+        query.findInBackground(new FindCallback<File>()
+        {
+            @Override
+            public void done(List<File> files, ParseException e)
+            {
+                if (e != null)
+                {
+                    Log.e(TAG, "error when querying the database", e);
+                    return;
+                }
+                allFiles.addAll(files);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
