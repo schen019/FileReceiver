@@ -22,6 +22,12 @@
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/item_files.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/item_post.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.24635416666666668" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_receive.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_send.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_successed.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/item_files.xml" value="0.18789657371631568" />
       </map>
     </option>
   </component>
