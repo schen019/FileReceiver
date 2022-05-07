@@ -89,7 +89,7 @@ public class HistoryFragment extends Fragment
             @Override
             public void onRefresh() {
                 Log.i(TAG, "fetching new data");
-                //Function to call when the user swipes to refresh
+                queryPosts();
             }
         });
 
@@ -99,7 +99,7 @@ public class HistoryFragment extends Fragment
     private void queryPosts()
     {
         ParseQuery<File> query = ParseQuery.getQuery(File.class);
-        //query.include(File.);
+        query.include(File.KEY_SENDER);
         query.setLimit(20);
         query.orderByDescending(File.KEY_UPDATEDAT);
         query.findInBackground(new FindCallback<File>()
