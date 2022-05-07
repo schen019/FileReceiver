@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
 {
@@ -67,11 +69,13 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
             btnDownLoad = itemView.findViewById(R.id.btnDownLoad);
         }
 
+
         public void bind(File file)
         {
             tvSender.setText(file.getSender());
             tvReceiver.setText(file.getReceiver());
-            //tvDate.setText(file.getDate());
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            tvDate.setText(dateFormatter.format(file.getDate()));
 
             ParseFile fileImage = file.getFile();
             if (fileImage != null)

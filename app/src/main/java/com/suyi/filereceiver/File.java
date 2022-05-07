@@ -1,10 +1,12 @@
 package com.suyi.filereceiver;
 
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.Date;
 
+@ParseClassName("File")
 public class File extends ParseObject
 {
     public static final String KEY_SENDER = "Sender";
