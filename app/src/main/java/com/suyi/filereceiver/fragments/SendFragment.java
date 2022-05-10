@@ -1,12 +1,7 @@
 package com.suyi.filereceiver.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.ParseException;
+import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.R;
+
+
 
 public class SendFragment extends Fragment {
 
@@ -25,7 +31,8 @@ public class SendFragment extends Fragment {
     private Button btnSelect;
     private ImageView ivPostImage;
     private Button btnSend;
-    private Object SuccessedFragment;
+
+    private File fileContent;
 
     public SendFragment() {
         // Required empty public constructor
@@ -54,11 +61,29 @@ public class SendFragment extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    goSuccessed();
+                String receiver = etReceiver.getText().toString();
+                if (receiver.isEmpty()) {
+                    Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (fileContent == null) {
+                    Toast.makeText(getContext(), "there is no file", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
+                saveFile(receiver, currentUser, fileContent);
+
+
             }
         });
     }
 
-    private void goSuccessed() {
+    private void saveFile(String receiver, ParseUser currentUser, File fileContent) {
+        File file =  new File();
+        file.setReceiver(receiver);
+        file.setSender(currentUser);
+        //file.setFile(new ParseFile(fileContent));
     }
+
 }

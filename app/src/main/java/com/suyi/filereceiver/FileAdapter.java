@@ -74,8 +74,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
         {
             tvSender.setText(file.getSender());
             tvReceiver.setText(file.getReceiver());
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-            tvDate.setText(dateFormatter.format(file.getDate()));
+
 
             ParseFile fileImage = file.getFile();
             if (fileImage != null)

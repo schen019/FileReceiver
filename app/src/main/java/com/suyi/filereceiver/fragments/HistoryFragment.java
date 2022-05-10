@@ -101,7 +101,7 @@ public class HistoryFragment extends Fragment
         ParseQuery<File> query = ParseQuery.getQuery(File.class);
         query.include(File.KEY_SENDER);
         query.setLimit(20);
-        query.orderByDescending(File.KEY_UPDATEDAT);
+        query.orderByDescending(File.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<File>()
         {
             @Override
