@@ -104,11 +104,8 @@ public class SendFragment extends Fragment {
 
                 if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
-                    Uri uri = null;
-                    if (data != null) {
-                        uri = data.getData();
-                        Log.d("SendFragment", "GotoFile" + uri.getPath());
-                    }
+                    Uri uri = data.getData();
+                    Log.d("SendFragment", "GotoFile" + uri.getPath());
                     fileContent = new java.io.File(uri.getPath());
                 }
             }
