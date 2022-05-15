@@ -75,9 +75,48 @@ public class SendFragment extends Fragment {
                 saveFile(receiver, currentUser, fileContent);
 
 
+        /*btnSelect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("SendGragment","select button");
+                    Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                    chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+                    chooseFile.setType("/*
+                    Intent i = Intent.createChooser(chooseFile,"Choose a file");
+                    GotoFile(i, FILE_MANAGER);
+                }
+            }); */
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent,"Choose a file");
+                startActivityForResult(i, 1);
+
             }
         });
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+
+
+                if(requestCode == 1 && resultCode==RESULT_OK){
+
+                  Uri uri = null;
+                  if (data != null){
+                    uri = data.getData();
+                    Log.d("SendFragment","GotoFile"+uri.getPath());
+
+                }
+                }
+
+
 
     private void saveFile(String receiver, ParseUser currentUser, File fileContent) {
         File file =  new File();
