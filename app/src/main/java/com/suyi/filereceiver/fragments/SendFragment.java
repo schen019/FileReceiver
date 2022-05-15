@@ -1,5 +1,10 @@
 package com.suyi.filereceiver.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.parse.Parse;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.ParseException;
+
 import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.R;
 
@@ -32,7 +39,7 @@ public class SendFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSend;
 
-    private File fileContent;
+    private java.io.File fileContent;
 
     public SendFragment() {
         // Required empty public constructor
@@ -58,6 +65,20 @@ public class SendFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSend = view.findViewById(R.id.btnSend);
 
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "Choose a file");
+                startActivityForResult(i, 1);
+
+            }
+        });
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,57 +93,31 @@ public class SendFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                saveFile(receiver, currentUser, fileContent);
-
-
-        /*btnSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("SendGragment","select button");
-                    Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-                    chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-                    chooseFile.setType("/*
-                    Intent i = Intent.createChooser(chooseFile,"Choose a file");
-                    GotoFile(i, FILE_MANAGER);
-                }
-            }); */
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent,"Choose a file");
-                startActivityForResult(i, 1);
-
+                SafeFile(receiver, currentUser);
             }
         });
-
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
+            public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                // TODO Auto-generated method stub
 
 
-                if(requestCode == 1 && resultCode==RESULT_OK){
+                if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
-                  Uri uri = null;
-                  if (data != null){
-                    uri = data.getData();
-                    Log.d("SendFragment","GotoFile"+uri.getPath());
-
+                    Uri uri = null;
+                    if (data != null) {
+                        uri = data.getData();
+                        Log.d("SendFragment", "GotoFile" + uri.getPath());
+                    }
+                    fileContent = new java.io.File(uri.getPath());
                 }
-                }
+            }
 
+            private void SafeFile(String receiver, ParseUser currentUser) {
+                File file = new File();
+                file.setSender(currentUser);
+                file.setReceiver(receiver);
+                file.setFile(new ParseFile(fileContent));
 
-
-    private void saveFile(String receiver, ParseUser currentUser, File fileContent) {
-        File file =  new File();
-        file.setReceiver(receiver);
-        file.setSender(currentUser);
-        //file.setFile(new ParseFile(fileContent));
-    }
-
-}
+            }
+        }
