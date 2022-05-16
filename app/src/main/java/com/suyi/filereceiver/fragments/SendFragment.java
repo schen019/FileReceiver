@@ -25,6 +25,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.ParseException;
 
+import com.parse.SaveCallback;
 import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.R;
 
@@ -32,11 +33,12 @@ import com.suyi.filereceiver.R;
 
 public class SendFragment extends Fragment {
 
+    public static final String TAG = "SendFragment";
+
     private TextView tvSend;
     private EditText etReceiver;
     private EditText etCode;
     private Button btnSelect;
-    private ImageView ivPostImage;
     private Button btnSend;
 
     private java.io.File fileContent;
@@ -62,7 +64,6 @@ public class SendFragment extends Fragment {
         etReceiver = view.findViewById(R.id.etReceiver);
         etCode = view.findViewById(R.id.etCode);
         btnSelect = view.findViewById(R.id.btnSelect);
-        ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSend = view.findViewById(R.id.btnSend);
 
 
@@ -87,13 +88,19 @@ public class SendFragment extends Fragment {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String code = etCode.getText().toString();
+                if (code.isEmpty()) {
+                    Toast.makeText(getContext(), "no code", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (fileContent == null) {
                     Toast.makeText(getContext(), "there is no file", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "there is no file");
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                SafeFile(receiver, currentUser);
+                saveFile(receiver, currentUser, code, fileContent);
             }
         });
     }
@@ -110,11 +117,23 @@ public class SendFragment extends Fragment {
                 }
             }
 
-            private void SafeFile(String receiver, ParseUser currentUser) {
+            private void saveFile(String receiver, ParseUser currentUser, String code, java.io.File fileContent) {
                 File file = new File();
                 file.setSender(currentUser);
                 file.setReceiver(receiver);
-                file.setFile(new ParseFile(fileContent));
+                file.setCode(code);
+                file.setFile(new ParseFile(this.fileContent));
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null){
+                            Log.e(TAG, "error while saving", e);
+                            Toast.makeText(getContext(), "error while saving", Toast.LENGTH_SHORT).show();
+                        }
+                        Log.i(TAG, "post save was succesful");
+
+                    }
+                });
 
             }
         }
