@@ -17,8 +17,7 @@ public class File extends ParseObject
     public static final String KEY_CREATED_AT = "createdAt";
 
     public String getSender() { return getString(KEY_SENDER); }
-    public void setSender(ParseUser
-                                  sender) { put(KEY_SENDER, sender); }
+    public void setSender(ParseUser sender) { put(KEY_SENDER, sender); }
 
     public ParseFile getFile() { return getParseFile(KEY_FILE); }
     public void setFile(ParseFile parseFile) { put(KEY_FILE, parseFile); }

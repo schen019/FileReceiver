@@ -40,7 +40,6 @@ public class SendFragment extends Fragment {
     private EditText etReceiver;
     private EditText etCode;
     private Button btnSelect;
-    private ImageView ivPostImage;
     private Button btnSend;
 
     private java.io.File fileContent;
@@ -67,7 +66,6 @@ public class SendFragment extends Fragment {
         etReceiver = view.findViewById(R.id.etReceiver);
         etCode = view.findViewById(R.id.etCode);
         btnSelect = view.findViewById(R.id.btnSelect);
-        ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSend = view.findViewById(R.id.btnSend);
 
 
@@ -92,13 +90,18 @@ public class SendFragment extends Fragment {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String code = etCode.getText().toString();
+                if (code.isEmpty()) {
+                    Toast.makeText(getContext(), "no code", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (fileContent == null) {
                     Toast.makeText(getContext(), "there is no file", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                SafeFile(receiver, currentUser);
+                saveFile(receiver, currentUser, code);
                 Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
 
                 Fragment fragment = new SuccessedFragment();
@@ -111,33 +114,34 @@ public class SendFragment extends Fragment {
         });
     }
 
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                // TODO Auto-generated method stub
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
 
 
-                if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
-                    Uri uri = data.getData();
-                    Log.i("SendFragment", "GotoFile" + uri.getPath());
-                    fileContent = new java.io.File(uri.getPath());
-                }
-            }
-
-            private void SafeFile(String receiver, ParseUser currentUser) {
-                File file = new File();
-                file.setSender(currentUser);
-                file.setReceiver(receiver);
-                file.setFile(new ParseFile(fileContent));
-                file.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null){
-                            Log.e("SendFragment","Error while saving",e);
-                            Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
-                        }
-                        Log.i("SendFragment","File upload was successful");
-                    }
-                });
-
-            }
+            Uri uri = data.getData();
+            Log.i("SendFragment", "GotoFile" + uri.getPath());
+            fileContent = new java.io.File(uri.getPath());
         }
+    }
+
+    private void saveFile(String receiver, ParseUser currentUser, String code) {
+        File file = new File();
+        file.setSender(currentUser);
+        file.setReceiver(receiver);
+        file.setCode(code);
+        file.setFile(new ParseFile(fileContent));
+        file.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.e("SendFragment","Error while saving",e);
+                    Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
+                }
+                Log.i("SendFragment","File upload was successful");
+            }
+        });
+    }
+    }

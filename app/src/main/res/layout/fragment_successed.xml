@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="12sp"
-        android:text="Successed!!"
+        android:text="Success!!"
         android:textAlignment="center"
         android:textColor="#E91E63"
         android:textDirection="firstStrongRtl"
