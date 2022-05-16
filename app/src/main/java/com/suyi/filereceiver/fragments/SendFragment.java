@@ -25,6 +25,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.ParseException;
 
+import com.parse.SaveCallback;
 import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.R;
 
@@ -94,6 +95,7 @@ public class SendFragment extends Fragment {
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
                 SafeFile(receiver, currentUser);
+                Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -105,7 +107,7 @@ public class SendFragment extends Fragment {
                 if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
                     Uri uri = data.getData();
-                    Log.d("SendFragment", "GotoFile" + uri.getPath());
+                    Log.i("SendFragment", "GotoFile" + uri.getPath());
                     fileContent = new java.io.File(uri.getPath());
                 }
             }
@@ -115,6 +117,16 @@ public class SendFragment extends Fragment {
                 file.setSender(currentUser);
                 file.setReceiver(receiver);
                 file.setFile(new ParseFile(fileContent));
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null){
+                            Log.e("SendFragment","Error while saving",e);
+                            Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
+                        }
+                        Log.i("SendFragment","Post save was successful");
+                    }
+                });
 
             }
         }
