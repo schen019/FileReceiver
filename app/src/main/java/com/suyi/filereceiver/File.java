@@ -11,7 +11,7 @@ import java.util.Date;
 public class File extends ParseObject
 {
     public static final String KEY_SENDER = "Sender";
-    public static final String KEY_FILE = "File";
+    public static final String KEY_FILE = "Post";
     public static final String KEY_RECEIVER = "Receiver";
     public static final String KEY_CODE = "Code";
     public static final String KEY_CREATED_AT = "createdAt";

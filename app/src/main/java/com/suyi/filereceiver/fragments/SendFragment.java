@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.parse.Parse;
 import com.parse.ParseFile;
@@ -27,18 +29,18 @@ import com.parse.ParseException;
 
 import com.parse.SaveCallback;
 import com.suyi.filereceiver.File;
+import com.suyi.filereceiver.MainActivity;
 import com.suyi.filereceiver.R;
 
 
 
 public class SendFragment extends Fragment {
 
-    public static final String TAG = "SendFragment";
-
     private TextView tvSend;
     private EditText etReceiver;
     private EditText etCode;
     private Button btnSelect;
+    private ImageView ivPostImage;
     private Button btnSend;
 
     private java.io.File fileContent;
@@ -60,10 +62,12 @@ public class SendFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         tvSend = view.findViewById(R.id.tvSend);
         etReceiver = view.findViewById(R.id.etReceiver);
         etCode = view.findViewById(R.id.etCode);
         btnSelect = view.findViewById(R.id.btnSelect);
+        ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSend = view.findViewById(R.id.btnSend);
 
 
@@ -88,19 +92,21 @@ public class SendFragment extends Fragment {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String code = etCode.getText().toString();
-                if (code.isEmpty()) {
-                    Toast.makeText(getContext(), "no code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if (fileContent == null) {
                     Toast.makeText(getContext(), "there is no file", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "there is no file");
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                saveFile(receiver, currentUser, code, fileContent);
+                SafeFile(receiver, currentUser);
+                Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new SuccessedFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContainer,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -112,26 +118,24 @@ public class SendFragment extends Fragment {
                 if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
                     Uri uri = data.getData();
-                    Log.d("SendFragment", "GotoFile" + uri.getPath());
+                    Log.i("SendFragment", "GotoFile" + uri.getPath());
                     fileContent = new java.io.File(uri.getPath());
                 }
             }
 
-            private void saveFile(String receiver, ParseUser currentUser, String code, java.io.File fileContent) {
+            private void SafeFile(String receiver, ParseUser currentUser) {
                 File file = new File();
                 file.setSender(currentUser);
                 file.setReceiver(receiver);
-                file.setCode(code);
-                file.setFile(new ParseFile(this.fileContent));
+                file.setFile(new ParseFile(fileContent));
                 file.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e != null){
-                            Log.e(TAG, "error while saving", e);
-                            Toast.makeText(getContext(), "error while saving", Toast.LENGTH_SHORT).show();
+                            Log.e("SendFragment","Error while saving",e);
+                            Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
                         }
-                        Log.i(TAG, "post save was succesful");
-
+                        Log.i("SendFragment","File upload was successful");
                     }
                 });
 
