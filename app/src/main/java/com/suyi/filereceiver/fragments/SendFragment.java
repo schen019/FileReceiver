@@ -85,13 +85,13 @@ public class SendFragment extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String receiver = etReceiver.getText().toString();
+                String receiver = etReceiver.getText().toString();;
+                String PIN = etCode.getText().toString();
                 if (receiver.isEmpty()) {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String code = etCode.getText().toString();
-                if (code.isEmpty()) {
+                if (PIN.isEmpty()) {
                     Toast.makeText(getContext(), "no code", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -101,10 +101,10 @@ public class SendFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                saveFile(receiver, currentUser, code);
+                saveFile(receiver, currentUser, PIN);
                 Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
 
-                Fragment fragment = new SuccessedFragment();
+                Fragment fragment = new Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flContainer,fragment);
@@ -127,11 +127,11 @@ public class SendFragment extends Fragment {
         }
     }
 
-    private void saveFile(String receiver, ParseUser currentUser, String code) {
+    private void saveFile(String receiver, ParseUser currentUser, String PIN) {
         File file = new File();
         file.setSender(currentUser);
         file.setReceiver(receiver);
-        file.setCode(code);
+        file.setCode(PIN);
         file.setFile(new ParseFile(fileContent));
         file.saveInBackground(new SaveCallback() {
             @Override

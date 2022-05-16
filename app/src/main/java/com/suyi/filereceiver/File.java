@@ -15,7 +15,6 @@ public class File extends ParseObject
     public static final String KEY_RECEIVER = "Receiver";
     public static final String KEY_CODE = "Code";
     public static final String KEY_CREATED_AT = "createdAt";
-
     public String getSender() { return getString(KEY_SENDER); }
     public void setSender(ParseUser sender) { put(KEY_SENDER, sender); }
 

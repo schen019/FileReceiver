@@ -2,12 +2,20 @@ package com.suyi.filereceiver.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseUser;
 import com.suyi.filereceiver.R;
 
 /**
@@ -15,8 +23,11 @@ import com.suyi.filereceiver.R;
  * Use the {@link FileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FileFragment extends Fragment {
-
+public class FileFragment extends ReceiveFragment {
+    private TextView tvSender;
+    private TextView tvReceiver;
+    private ImageView ivImage;
+    private Button btnDownload;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,8 +74,21 @@ public class FileFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_files, container, false);
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        tvSender = view.findViewById(R.id.tvSender);
+        tvReceiver =view.findViewById(R.id.tvReceiver);
+        ivImage = view.findViewById(R.id.ivImage);
+        btnDownload = view.findViewById(R.id.btnDownload);
+
+        tvSender.setText("Sender: "+ etSender);
+        tvReceiver.setText("Receiver: "+ ParseUser.getCurrentUser().getUsername());
+
+    }
 
 
 
 
-}
+    }

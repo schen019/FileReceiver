@@ -36,9 +36,8 @@ import java.util.List;
 
 public class ReceiveFragment extends Fragment {
 
-    private TextView tvReceive;
-    private EditText etSender;
-    private EditText etCode3;
+    protected EditText etSender;
+    protected EditText etCode3;
     private Button btnReceive;
 
 
@@ -64,7 +63,7 @@ public class ReceiveFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvReceive = view.findViewById(R.id.tvReceive);
+
         etSender = view.findViewById(R.id.etSender);
         etCode3 = view.findViewById(R.id.etCode3);
         btnReceive = view.findViewById(R.id.btnReceive);
@@ -73,29 +72,30 @@ public class ReceiveFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String Sender = etSender.getText().toString();
+                String PIN = etCode3.getText().toString();
                 if (Sender.isEmpty()) {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (PIN.isEmpty()){
+                    Toast.makeText(getContext(), "need a PIN", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                Fragment fragment = new FileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flContainer,fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                GetFile(Sender,currentUser);
+                GetFile(Sender,currentUser,PIN);
             }
         });
     }
 
-    private void GetFile(String sender, ParseUser currentUser) {
+    private void GetFile(String sender, ParseUser currentUser, String PIN) {
         ParseQuery<File> file =ParseQuery.getQuery(File.class);
-        file.include(File.KEY_FILE);
+        file.include(File.KEY_CODE);
+        file.whereEqualTo(File.KEY_CODE,PIN);
         file.whereEqualTo(File.KEY_RECEIVER,currentUser);
         file.whereEqualTo(File.KEY_SENDER,sender);
-        file.setLimit(10);
+        file.setLimit(2);
         file.findInBackground(new FindCallback<File>() {
             @Override
             public void done(List<File> files, ParseException e) {
@@ -104,11 +104,15 @@ public class ReceiveFragment extends Fragment {
                     return;
                 }
                 for (File file : files) {
-                    Log.i(TAG, "Sender: "+file.getSender()+" Receiver: " + file.getReceiver());
+                    Log.i(TAG, "Sender: " + file.getSender() + " Receiver: " + file.getReceiver());
+                    Fragment fragment = new FileFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.flContainer,fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
-
             }
-
         });  }
 
 }
