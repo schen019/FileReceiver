@@ -66,7 +66,8 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
             ivImage = itemView.findViewById(R.id.ivImage);
             tvReceiver = itemView.findViewById(R.id.tvReceiver);
             tvDate = itemView.findViewById(R.id.tvDate);
-            btnDownLoad = itemView.findViewById(R.id.btnDownLoad);
+
+
         }
 
 

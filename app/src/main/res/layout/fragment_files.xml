@@ -9,6 +9,19 @@
     android:layout_margin="8dp">
 
     <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Here is the File!"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textDirection="locale"
+        android:textSize="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvTime"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
         android:id="@+id/tvSender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,5 +70,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSender"
         tools:ignore="MissingConstraints"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnDownLoad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FFC107"
+        android:text="DownLoad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPostImage" />
 
 </LinearLayout>

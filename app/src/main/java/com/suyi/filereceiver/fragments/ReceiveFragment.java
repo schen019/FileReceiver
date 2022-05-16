@@ -2,11 +2,16 @@ package com.suyi.filereceiver.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStateManagerControl;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +27,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.suyi.filereceiver.File;
+import com.suyi.filereceiver.FileAdapter;
+import com.suyi.filereceiver.MainActivity;
 import com.suyi.filereceiver.R;
 
 import java.util.List;
@@ -70,6 +77,13 @@ public class ReceiveFragment extends Fragment {
                     Toast.makeText(getContext(), "invalid user", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                Fragment fragment = new FileFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContainer,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 GetFile(Sender,currentUser);
             }

@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.parse.Parse;
 import com.parse.ParseFile;
@@ -27,6 +29,7 @@ import com.parse.ParseException;
 
 import com.parse.SaveCallback;
 import com.suyi.filereceiver.File;
+import com.suyi.filereceiver.MainActivity;
 import com.suyi.filereceiver.R;
 
 
@@ -59,6 +62,7 @@ public class SendFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         tvSend = view.findViewById(R.id.tvSend);
         etReceiver = view.findViewById(R.id.etReceiver);
         etCode = view.findViewById(R.id.etCode);
@@ -96,6 +100,13 @@ public class SendFragment extends Fragment {
 
                 SafeFile(receiver, currentUser);
                 Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new SuccessedFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContainer,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -124,7 +135,7 @@ public class SendFragment extends Fragment {
                             Log.e("SendFragment","Error while saving",e);
                             Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
                         }
-                        Log.i("SendFragment","Post save was successful");
+                        Log.i("SendFragment","File upload was successful");
                     }
                 });
 

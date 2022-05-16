@@ -6,7 +6,6 @@
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/activity_setup.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_history.xml" value="0.2653985507246377" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_historylist.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_receive.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Henry/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_send.xml" value="0.358695652173913" />
@@ -15,6 +14,8 @@
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/activity_main.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/activity_setup.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_compose.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_file.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_files.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_historylist.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_posts.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/suyic/AndroidStudioProjects/FileReceiver/app/src/main/res/layout/fragment_receive.xml" value="0.24635416666666668" />
