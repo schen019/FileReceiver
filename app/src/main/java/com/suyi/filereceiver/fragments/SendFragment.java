@@ -57,6 +57,7 @@ public class SendFragment extends Fragment {
     private ImageView ivFileImage;
     private Button btnSend;
     private String fileName;
+    private Uri uri;
 
     private byte [] fileContent;
 
@@ -86,9 +87,9 @@ public class SendFragment extends Fragment {
         btnSend = view.findViewById(R.id.btnSend);
         ivFileImage =view.findViewById(R.id.ivFileImage);
 
-        if (fileContent != null){
+        if (fileContent != null) {
             ivFileImage.setImageResource(R.drawable.ic_baseline_sentiment_very_satisfied_24);
-        }else{
+        }else {
             ivFileImage.setImageResource(R.drawable.ic_round_sentiment_dissatisfied_24);
         }
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +127,7 @@ public class SendFragment extends Fragment {
                 saveFile(receiver, currentUser, PIN);
                 Toast.makeText(getContext(), "File Send!!", Toast.LENGTH_SHORT).show();
 
-                Fragment fragment = new Fragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flContainer,fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
             }
         });
     }
@@ -150,7 +146,7 @@ public class SendFragment extends Fragment {
             //Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", fileContent);
 
 
-            Uri uri = data.getData();
+            uri = data.getData();
 
             String result;
 
@@ -215,7 +211,14 @@ public class SendFragment extends Fragment {
                     Log.e("SendFragment","Error while saving",e);
                     Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
                 }
-                else { Log.i("SendFragment","File upload was successful"); }
+                else { Log.i("SendFragment","File upload was successful");
+                    Fragment fragment = new Fragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.flContainer,fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
     }

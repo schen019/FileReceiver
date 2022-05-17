@@ -99,11 +99,10 @@ public class HistoryFragment extends Fragment
 
     private void queryPosts()
     {
+        String currentUser = ParseUser.getCurrentUser().getUsername();
         ParseQuery<File> query = ParseQuery.getQuery(File.class);
-        query.include(File.KEY_SENDER);
-
-        query.include(File.KEY_RECEIVER);
-
+        query.include(File.KEY_FILE);
+        query.whereEqualTo(File.KEY_RECEIVER,currentUser);
         query.setLimit(20);
         query.orderByDescending(File.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<File>()

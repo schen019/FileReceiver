@@ -1,13 +1,20 @@
 package com.suyi.filereceiver.fragments;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.DOWNLOAD_SERVICE;
+
+import static com.suyi.filereceiver.File.KEY_FILE;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStateManagerControl;
@@ -23,9 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.boltsinternal.Task;
 import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.FileAdapter;
 import com.suyi.filereceiver.MainActivity;
@@ -82,12 +94,7 @@ public class ReceiveFragment extends Fragment {
                     return;
                 }
 
-                Fragment fragment = new FileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flContainer,fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 GetFile(Sender,currentUser,PIN);
             }
@@ -95,24 +102,36 @@ public class ReceiveFragment extends Fragment {
     }
 
     private void GetFile(String sender, ParseUser currentUser, String PIN) {
-        ParseQuery<File> file =ParseQuery.getQuery(File.class);
+        Activity
+        ParseQuery<File> file = ParseQuery.getQuery(File.class);
         file.include(File.KEY_CODE);
         file.whereEqualTo(File.KEY_CODE,PIN);
         file.whereEqualTo(File.KEY_RECEIVER,currentUser);
         file.whereEqualTo(File.KEY_SENDER,sender);
-        file.setLimit(5);
+        file.setLimit(1);
         file.findInBackground(new FindCallback<File>() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            public void done(List<File> files, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting file",e);
-                    return;
+            public void done(List<File> objects, ParseException e) {
+                    if (e!= null){
+                        Log.e("ReceiveFragment","no such File",e);
+                        Toast.makeText(getContext(),"Do not found Files!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }else{
+                        Log.i("ReceiveFragment","Found the File");
+                    }
+                ParseFile parseFile = ;
+                try {
+                    parseFile.save();
+                } catch (ParseException parseException) {
+                    parseException.printStackTrace();
                 }
-                for (File file : files) {
-                    Log.i(TAG, "Sender: " + file.getSender() + " Receiver: " + file.getReceiver());
 
-                }
             }
-        });  }
+        });
 
+
+
+
+    }
 }

@@ -2,6 +2,7 @@ package com.suyi.filereceiver;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.os.Build;
@@ -14,11 +15,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.suyi.filereceiver.fragments.FileFragment;
+import com.suyi.filereceiver.fragments.ReceiveFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -94,27 +101,20 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
                 @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View view) {
+                    Fragment fragment = new ReceiveFragment();
+                    FragmentManager fragmentManager =((FragmentActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.flContainer,fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
 
-                    downloadFile(fileImage);
+
 
                 }
             });
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        private void downloadFile(ParseFile file) {
-            try {
-                String name = file.getFile().toString();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
-            DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-            downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain","/sdcard/Android/data/com.suyi.my_parstagams/files/Pictures",10000,true);
-
-
-
-        }
 
 
     }
