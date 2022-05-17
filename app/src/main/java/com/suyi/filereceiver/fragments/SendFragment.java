@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.parse.Parse;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -40,6 +41,7 @@ public class SendFragment extends Fragment {
     private EditText etReceiver;
     private EditText etCode;
     private Button btnSelect;
+    private ImageView ivFileImage;
     private Button btnSend;
 
     private java.io.File fileContent;
@@ -67,8 +69,13 @@ public class SendFragment extends Fragment {
         etCode = view.findViewById(R.id.etCode);
         btnSelect = view.findViewById(R.id.btnSelect);
         btnSend = view.findViewById(R.id.btnSend);
+        ivFileImage =view.findViewById(R.id.ivFileImage);
 
-
+        if (fileContent != null){
+            ivFileImage.setImageResource(R.drawable.ic_baseline_sentiment_very_satisfied_24);
+        }else{
+            ivFileImage.setImageResource(R.drawable.ic_round_sentiment_dissatisfied_24);
+        }
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

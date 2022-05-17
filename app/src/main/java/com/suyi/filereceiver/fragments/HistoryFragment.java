@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.FileAdapter;
 import com.suyi.filereceiver.R;
@@ -100,6 +101,9 @@ public class HistoryFragment extends Fragment
     {
         ParseQuery<File> query = ParseQuery.getQuery(File.class);
         query.include(File.KEY_SENDER);
+
+        query.include(File.KEY_RECEIVER);
+
         query.setLimit(20);
         query.orderByDescending(File.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<File>()
