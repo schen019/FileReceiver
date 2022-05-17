@@ -57,7 +57,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
         ImageView ivImage;
         TextView tvReceiver;
         TextView tvDate;
-        Button btnDownLoad;
+
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -75,7 +75,8 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder>
         {
             tvSender.setText(file.getSender());
             tvReceiver.setText(file.getReceiver());
-
+            tvDate.setText(file.getDate());
+            ivImage.setImageResource(R.drawable.ic_baseline_file_copy_24);
 
             ParseFile fileImage = file.getFile();
             if (fileImage != null)

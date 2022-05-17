@@ -82,7 +82,12 @@ public class ReceiveFragment extends Fragment {
                     return;
                 }
 
-
+                Fragment fragment = new FileFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContainer,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 GetFile(Sender,currentUser,PIN);
             }
@@ -95,7 +100,7 @@ public class ReceiveFragment extends Fragment {
         file.whereEqualTo(File.KEY_CODE,PIN);
         file.whereEqualTo(File.KEY_RECEIVER,currentUser);
         file.whereEqualTo(File.KEY_SENDER,sender);
-        file.setLimit(2);
+        file.setLimit(5);
         file.findInBackground(new FindCallback<File>() {
             @Override
             public void done(List<File> files, ParseException e) {
@@ -105,12 +110,7 @@ public class ReceiveFragment extends Fragment {
                 }
                 for (File file : files) {
                     Log.i(TAG, "Sender: " + file.getSender() + " Receiver: " + file.getReceiver());
-                    Fragment fragment = new FileFragment();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.flContainer,fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+
                 }
             }
         });  }

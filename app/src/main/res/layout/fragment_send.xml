@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etCode" />
 
     <ImageView
-        android:id="@+id/ivPostImage"
+        android:id="@+id/ivFileImage"
         android:layout_width="400dp"
         android:layout_height="150dp"
         android:adjustViewBounds="true"
@@ -87,7 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPostImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivFileImage" />
 
 
 </LinearLayout>

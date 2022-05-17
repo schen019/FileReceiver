@@ -15,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.Parse;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.R;
 
 /**
@@ -23,7 +26,7 @@ import com.suyi.filereceiver.R;
  * Use the {@link FileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FileFragment extends ReceiveFragment {
+public class FileFragment extends Fragment {
     private TextView tvSender;
     private TextView tvReceiver;
     private ImageView ivImage;
@@ -36,6 +39,7 @@ public class FileFragment extends ReceiveFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Object ViewGroup;
 
     public FileFragment() {
         // Required empty public constructor
@@ -83,9 +87,9 @@ public class FileFragment extends ReceiveFragment {
         ivImage = view.findViewById(R.id.ivImage);
         btnDownload = view.findViewById(R.id.btnDownload);
 
-        tvSender.setText("Sender: "+ etSender);
-        tvReceiver.setText("Receiver: "+ ParseUser.getCurrentUser().getUsername());
 
+        tvSender.setText("Sender: "+ File.KEY_SENDER);
+        ivImage.setImageResource(R.drawable.ic_baseline_file_download_24);
     }
 
 

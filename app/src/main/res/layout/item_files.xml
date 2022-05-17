@@ -45,17 +45,17 @@
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginTop="4dp"
         android:adjustViewBounds="false"
         android:paddingTop="10dp"
-        android:paddingEnd="10dp"
+        android:paddingEnd="15dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSender"
         tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/ic_baseline_file_copy_24" />
 
 </LinearLayout>

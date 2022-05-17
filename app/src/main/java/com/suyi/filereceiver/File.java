@@ -27,6 +27,8 @@ public class File extends ParseObject
     public String getCode() { return getString(KEY_CODE); }
     public void setCode(String code) { put(KEY_CODE, code); }
 
+    public String getDate(){return  getString(KEY_CREATED_AT);};
+    public void setDate(String date){put(KEY_CREATED_AT, date);}
 
 }
 
