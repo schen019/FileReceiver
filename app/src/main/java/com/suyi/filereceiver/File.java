@@ -11,12 +11,12 @@ import java.util.Date;
 public class File extends ParseObject
 {
     public static final String KEY_SENDER = "Sender";
-    public static final String KEY_FILE = "Post";
+    public static final String KEY_FILE = "Content";
     public static final String KEY_RECEIVER = "Receiver";
-    public static final String KEY_CODE = "Code";
+    public static final String KEY_CODE = "PIN";
     public static final String KEY_CREATED_AT = "createdAt";
     public String getSender() { return getString(KEY_SENDER); }
-    public void setSender(ParseUser sender) { put(KEY_SENDER, sender); }
+    public void setSender(String sender) { put(KEY_SENDER, sender); }
 
     public ParseFile getFile() { return getParseFile(KEY_FILE); }
     public void setFile(ParseFile parseFile) { put(KEY_FILE, parseFile); }

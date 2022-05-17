@@ -4,8 +4,14 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,18 +39,26 @@ import com.suyi.filereceiver.File;
 import com.suyi.filereceiver.MainActivity;
 import com.suyi.filereceiver.R;
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class SendFragment extends Fragment {
+
+    public final static String TAG = "SendFragment";
 
     private TextView tvSend;
     private EditText etReceiver;
     private EditText etCode;
     private Button btnSelect;
     private Button btnSend;
+    private String fileName;
 
-    private java.io.File fileContent;
+    private byte [] fileContent;
 
+    //public final String fileName = "file.pdf";
     public SendFragment() {
         // Required empty public constructor
     }
@@ -121,18 +136,71 @@ public class SendFragment extends Fragment {
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
 
+
+            // Create a File reference for future access
+            //fileContent = getPhotoFileUri(fileName);
+
+            //Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", fileContent);
+
+
             Uri uri = data.getData();
+
+            String result;
+
+            Cursor returnCursor =
+                    getContext().getContentResolver().query(uri, null, null, null, null);
+            assert returnCursor != null;
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            fileName = returnCursor.getString(nameIndex);
+            returnCursor.close();
+
+
             Log.i("SendFragment", "GotoFile" + uri.getPath());
-            fileContent = new java.io.File(uri.getPath());
+            //fileContent = new java.io.File(uri.getPath());
+            ParcelFileDescriptor inputPFD = null;
+            try {
+                inputPFD = getContext().getContentResolver().openFileDescriptor(uri, "r");
+                AssetFileDescriptor aFD = getContext().getContentResolver().openAssetFileDescriptor(uri, "r" );
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            //File f = new File( inputPFD.getFd() );
+
+            FileDescriptor fd = inputPFD.getFileDescriptor();
+
+            fileContent = new byte[(int) inputPFD.getStatSize()];
+
+            FileInputStream fr = new FileInputStream (fd);
+
+            try {
+                fr.read( fileContent );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
+
     private void saveFile(String receiver, ParseUser currentUser, String PIN) {
         File file = new File();
-        file.setSender(currentUser);
+        file.setSender(currentUser.getUsername());
         file.setReceiver(receiver);
         file.setCode(PIN);
-        file.setFile(new ParseFile(fileContent));
+        file.setFile(new ParseFile(fileName, fileContent));
+
+
+        if (fileContent == null){ Log.i(TAG,"empty");}
+
         file.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -140,7 +208,7 @@ public class SendFragment extends Fragment {
                     Log.e("SendFragment","Error while saving",e);
                     Toast.makeText(getContext(),"Error while save!",Toast.LENGTH_SHORT).show();
                 }
-                Log.i("SendFragment","File upload was successful");
+                else { Log.i("SendFragment","File upload was successful"); }
             }
         });
     }
